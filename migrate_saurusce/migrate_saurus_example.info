@@ -1,0 +1,15 @@
+name = "Saurus example migration"
+description = "Migrate content from Saurus CMS to Drupal 7"
+package = "Development"
+core = 7.x
+;hidden = TRUE
+
+dependencies[] = migrate
+dependencies[] = migrate_ui
+dependencies[] = migrate_saurus
+
+
+files[] = node.inc
+files[] = user.inc
+files[] = menu.inc
+files[] = news.inc

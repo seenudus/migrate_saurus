@@ -1,0 +1,12 @@
+name = "Migrate Saurus->Drupal7"
+description = "Migrate content from saurus site to D7"
+package = "Development"
+core = 7.x
+
+dependencies[] = migrate
+dependencies[] = migrate_ui
+
+; Base classes
+files[] = node.inc
+files[] = user.inc
+files[] = menu.inc

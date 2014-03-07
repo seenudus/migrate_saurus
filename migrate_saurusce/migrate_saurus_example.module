@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * This is an example Saurus migration submodule
+ */
+
+/**
+ * Implements hook_flush_caches().
+ */
+function migrate_saurus_example_flush_caches() {
+  migrate_saurus_example_register_migrations();
+}
+
+/**
+ * Register all Saurus->D7 migrations.
+ */
+function migrate_saurus_example_register_migrations() {
+  $common_arguments = array(
+    'source_connection' => 'legacy_saurus',
+    'language' => 0, //Estonian by default
+  );
+
+  // The description and the migration machine name are also required arguments,
+  // which will be unique for each migration you register.
+  $node_arguments = $common_arguments + array(
+    'description' => t('Migration of articles from Saurus CMS'),
+    'machine_name' => 'ExampleArticles',
+    'user_migration' => 'ExampleUsers',
+    'menu_migration' => 'ExampleMenuTerms',
+  );
+
+  $user_arguments = $common_arguments + array(
+    'description' => t('Migration of users from Saurus CMS, prerequisite for articles'),
+    'machine_name' => 'ExampleUsers',
+  );
+
+  $menu_terms_arguments = $common_arguments + array(
+    'description' => t('Migration of menu terms from Saurus CMS, prerequisite for articles'),
+    'machine_name' => 'ExampleMenuTerms',
+  );
+
+  $news_arguments = $common_arguments + array(
+    'description' => t('Migration of news from Saurus CMS'),
+    'user_migration' => 'ExampleUsers',
+    'menu_migration' => 'ExampleMenuTerms',
+    'machine_name' => 'ExampleNews',
+  );
+
+  Migration::registerMigration('ExampleUserMigration', $user_arguments['machine_name'], $user_arguments);
+  Migration::registerMigration('ExampleNodeMigration', $node_arguments['machine_name'], $node_arguments);
+  Migration::registerMigration('ExampleMenuTermMigration', $menu_terms_arguments['machine_name'], $menu_terms_arguments);
+  Migration::registerMigration('ExampleNewsMigration', $news_arguments['machine_name'], $news_arguments);
+
+}
+
+/**
+ * Implements hook_migrate_api().
+ */
+function migrate_saurus_example_migrate_api() {
+  $api = array(
+    'api' => 2,
+  );
+  return $api;
+}
